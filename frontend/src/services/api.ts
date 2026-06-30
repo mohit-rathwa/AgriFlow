@@ -17,7 +17,7 @@ const mockData: Record<string, any> = {
     name: 'Demo User',
     email: 'demo@agriflow.com',
     role: 'admin',
-    provider: 'demo',
+    provider: 'google',
   },
   '/datasets': [
     {

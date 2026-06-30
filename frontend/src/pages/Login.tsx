@@ -13,8 +13,8 @@ export default function Login() {
       id: 'demo-123',
       name: 'Demo Recruiter',
       email: 'recruiter@agriflow.com',
-      provider: 'demo',
-      provider_id: 'demo',
+      provider: 'google',
+      provider_id: 'demo-123',
       avatar_url: '',
       role: 'admin',
       created_at: new Date().toISOString()
