@@ -14,9 +14,20 @@ from app.core.config import get_settings
 
 settings = get_settings()
 
+# Auto-fix Render's postgres:// URLs to be compatible with asyncpg
+async_db_url = settings.DATABASE_URL
+if async_db_url.startswith("postgres://"):
+    async_db_url = async_db_url.replace("postgres://", "postgresql+asyncpg://", 1)
+elif async_db_url.startswith("postgresql://"):
+    async_db_url = async_db_url.replace("postgresql://", "postgresql+asyncpg://", 1)
+
+sync_db_url = settings.DATABASE_URL_SYNC
+if sync_db_url.startswith("postgres://"):
+    sync_db_url = sync_db_url.replace("postgres://", "postgresql://", 1)
+
 # ── Async engine & session (FastAPI) ────────────────────────────────────
 async_engine = create_async_engine(
-    settings.DATABASE_URL,
+    async_db_url,
     echo=False,
     future=True,
     pool_size=20,
@@ -35,7 +46,7 @@ async_session_factory = async_sessionmaker(
 
 # ── Sync engine & session (Celery workers) ──────────────────────────────
 sync_engine = create_engine(
-    settings.DATABASE_URL_SYNC,
+    sync_db_url,
     echo=False,
     future=True,
     pool_size=10,
