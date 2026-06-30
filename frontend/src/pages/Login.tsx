@@ -1,9 +1,26 @@
 import { useNavigate } from 'react-router-dom'
+import { useStore } from '../store/useStore'
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 export default function Login() {
   const navigate = useNavigate()
+  const setUser = useStore((state) => state.setUser)
+
+  const handleGuestLogin = () => {
+    localStorage.setItem('demoMode', 'true')
+    setUser({
+      id: 'demo-123',
+      name: 'Demo Recruiter',
+      email: 'recruiter@agriflow.com',
+      provider: 'demo',
+      provider_id: 'demo',
+      avatar_url: '',
+      role: 'admin',
+      created_at: new Date().toISOString()
+    })
+    navigate('/')
+  }
 
   return (
     <div className="min-h-screen bg-dark-950 flex items-center justify-center relative overflow-hidden">
@@ -67,7 +84,27 @@ export default function Login() {
             Continue with GitHub
           </a>
 
-          <div className="pt-4 border-t border-dark-700/50">
+          <div className="relative py-3">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-dark-700/50"></div>
+            </div>
+            <div className="relative flex justify-center">
+              <span className="bg-dark-900 px-3 text-xs text-dark-500 font-medium">OR</span>
+            </div>
+          </div>
+
+          <button
+            onClick={handleGuestLogin}
+            className="flex items-center justify-center gap-3 w-full px-6 py-3.5 bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-500 font-medium rounded-xl border border-emerald-600/30 transition-all duration-300 active:scale-[0.98]"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+            View Demo Dashboard (Guest)
+          </button>
+
+          <div className="pt-4 border-t border-dark-700/50 mt-6">
             <p className="text-xs text-dark-500 text-center leading-relaxed">
               By signing in, you agree to our Terms of Service and Privacy Policy.
               AgriFlow uses OAuth for secure, password-free authentication.
