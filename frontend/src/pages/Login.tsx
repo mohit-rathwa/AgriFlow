@@ -14,7 +14,6 @@ export default function Login() {
       name: 'Demo Recruiter',
       email: 'recruiter@agriflow.com',
       provider: 'google',
-      provider_id: 'demo-123',
       avatar_url: '',
       role: 'admin',
       created_at: new Date().toISOString()
