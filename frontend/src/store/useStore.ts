@@ -26,6 +26,7 @@ export const useStore = create<AppState>((set) => ({
   setSidebarOpen: (open) => set({ sidebarOpen: open }),
 
   logout: () => {
+    localStorage.removeItem('demoMode');
     set({ user: null, activeDatasetId: null });
     window.location.href = '/login';
   },

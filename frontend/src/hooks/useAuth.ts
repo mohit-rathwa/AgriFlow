@@ -5,6 +5,7 @@ import type { User } from '../types';
 
 export function useAuth() {
   const { user, setUser } = useStore();
+  const isDemoMode = localStorage.getItem('demoMode') === 'true';
 
   const query = useQuery<User>({
     queryKey: ['auth', 'me'],
@@ -16,14 +17,15 @@ export function useAuth() {
     retry: false,
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
-    enabled: !user,
+    // Don't fire the query if user is already in store OR we're in demo mode
+    enabled: !user && !isDemoMode,
   });
 
   return {
     user: user || query.data || null,
-    isLoading: !user && query.isLoading,
-    isAuthenticated: !!user || !!query.data,
-    isError: query.isError,
+    isLoading: !user && !isDemoMode && query.isLoading,
+    isAuthenticated: !!user || isDemoMode || !!query.data,
+    isError: !isDemoMode && query.isError,
     refetch: query.refetch,
   };
 }
