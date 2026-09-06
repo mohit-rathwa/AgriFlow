@@ -3,9 +3,11 @@ const { getAllUsers, approveMandiAgent, rejectMandiAgent, getPlatformStats, togg
 const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
+const restrictGuestWrites = require('../middleware/guestMiddleware');
 
 router.use(protect);
 router.use(authorize('admin'));
+router.use(restrictGuestWrites);
 
 router.get('/users', getAllUsers);
 router.put('/users/:id/approve', approveMandiAgent);

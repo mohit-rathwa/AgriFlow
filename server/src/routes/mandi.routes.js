@@ -4,9 +4,11 @@ const { addDailyPrice, getMyPrices, updatePrice, deletePrice } = require('../con
 const { protect, authorize } = require('../middleware/auth');
 
 const router = express.Router();
+const restrictGuestWrites = require('../middleware/guestMiddleware');
 
 router.use(protect);
 router.use(authorize('mandiAgent'));
+router.use(restrictGuestWrites);
 
 router.post('/prices', [
   body('commodity', 'Commodity is required').not().isEmpty(),

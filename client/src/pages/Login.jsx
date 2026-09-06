@@ -98,12 +98,15 @@ const Login = () => {
             onClick={async () => {
               setLoading(true);
               try {
-                // Auto-login using the demo account created during testing
-                await login('mohit@test.com', '123456');
+                // Auto-login using the guest account
+                const user = await login('guest@agriflow.com', 'guestpassword123');
                 toast.success('Logged in as Guest');
-                navigate('/dashboard');
+                if (user.role === 'farmer') navigate('/dashboard');
+                else if (user.role === 'mandiAgent') navigate('/mandi');
+                else if (user.role === 'admin') navigate('/admin');
+                else navigate('/');
               } catch (err) {
-                toast.error('Demo account unavailable. Please register.');
+                toast.error('Guest account unavailable. Please register.');
               } finally {
                 setLoading(false);
               }
