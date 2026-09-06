@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: agriflow-api
+    env: node
+    buildCommand: npm install
+    startCommand: node src/server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: FRONTEND_URL
+        value: https://agriflow.vercel.app
+      - key: ML_SERVICE_URL
+        value: https://agriflow-ml.onrender.com
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+      - key: FAST2SMS_API_KEY
+        sync: false

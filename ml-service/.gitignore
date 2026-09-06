@@ -1,7 +1,5 @@
-node_modules/
-.env
-dist/
 __pycache__/
 *.pyc
+.env
 trained_model.joblib
 database_data/
